@@ -8,9 +8,9 @@
     ],
     "autoload": {
         "psr-4": {
-            "WxPay\\": "src/",
-            "WxPay\\Lib\\": "lib/"
-        }
+            "WxPay\\": "src/"
+        },
+        "classmap":["lib/"]
     },
     "require": {
     	"php": ">=5.4.0"
