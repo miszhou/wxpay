@@ -1,0 +1,18 @@
+{
+    "name": "test/wxpay",
+    "authors": [
+        {
+            "name": "zhouyutong",
+            "email": "zhouyutong@bamasoso.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "WxPay\\": "src/"
+        }
+    },
+    "require": {
+    	"php": ">=5.4.0"
+    },
+    "minimum-stability": "dev"
+}
