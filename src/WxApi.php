@@ -3,8 +3,13 @@ namespace WxPay;
 /**
  *
  */
-require_once "WxPay.Config.php";
-require_once "WxPayLib/WxPay.Data.php";
+use WxPayLib\WxPayConfig;
+use WxPayLib\WxPayUnifiedOrder;
+use WxPayLib\WxPayOrderQuery;
+use WxPayLib\WxPayCloseOrder;
+use WxPayLib\WxPayRefund;
+use WxPayLib\WxPayRefundQuery;
+
 class WxApi
 {
     /**
