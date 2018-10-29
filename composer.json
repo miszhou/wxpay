@@ -8,7 +8,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "WxPay\\": "src/"
+            "WxPay\\": "src/",
             "WxPayLib\\": "lib/",
         }
     },
