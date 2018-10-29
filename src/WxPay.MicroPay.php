@@ -1,32 +1,33 @@
 <?php
+namespace WxPay;
 /**
 *
 * example目录下为简单的支付样例，仅能用于搭建快速体验微信支付使用
 * 样例的作用仅限于指导如何使用sdk，在安全上面仅做了简单处理， 复制使用样例代码时请慎重
 * 请勿直接直接使用样例对外提供服务
-* 
+*
 **/
-require_once "../lib/WxPay.Api.php";
+require_once "WxPayLib/WxPay.Api.php";
 require_once "WxPay.Config.php";
 /**
- * 
+ *
  * 刷卡支付实现类
  * 该类实现了一个刷卡支付的流程，流程如下：
  * 1、提交刷卡支付
  * 2、根据返回结果决定是否需要查询订单，如果查询之后订单还未变则需要返回查询（一般反复查10次）
  * 3、如果反复查询10订单依然不变，则发起撤销订单
  * 4、撤销订单需要循环撤销，一直撤销成功为止（注意循环次数，建议10次）
- * 
+ *
  * 该类是微信支付提供的样例程序，商户可根据自己的需求修改，或者使用lib中的api自行开发，为了防止
  * 查询时hold住后台php进程，商户查询和撤销逻辑可在前端调用
- * 
+ *
  * @author widy
  *
  */
 class MicroPay
 {
 	/**
-	 * 
+	 *
 	 * 提交刷卡支付，并且确认结果，接口比较慢
 	 * @param WxPayMicroPay $microPayInput
 	 * @throws WxpayException
@@ -44,14 +45,14 @@ class MicroPay
 			echo "接口调用失败,请确认是否输入是否有误！";
 			throw new WxPayException("接口调用失败！");
 		}
-		
+
 		//取订单号
 		$out_trade_no = $microPayInput->GetOut_trade_no();
-		
+
 		//②、接口调用成功，明确返回调用失败
 		if($result["return_code"] == "SUCCESS" &&
-		   $result["result_code"] == "FAIL" && 
-		   $result["err_code"] != "USERPAYING" && 
+		   $result["result_code"] == "FAIL" &&
+		   $result["err_code"] != "USERPAYING" &&
 		   $result["err_code"] != "SYSTEMERROR")
 		{
 			return false;
@@ -73,7 +74,7 @@ class MicroPay
 				break;
 			}
 		}
-		
+
 		//④、次确认失败，则撤销订单
 		if(!$this->cancel($out_trade_no))
 		{
@@ -82,9 +83,9 @@ class MicroPay
 
 		return false;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * 查询订单情况
 	 * @param string $out_trade_no  商户订单号
 	 * @param int $succCode         查询订单结果
@@ -100,7 +101,7 @@ class MicroPay
 		} catch(Exception $e) {
 			Log::ERROR(json_encode($e));
 		}
-		if($result["return_code"] == "SUCCESS" 
+		if($result["return_code"] == "SUCCESS"
 			&& $result["result_code"] == "SUCCESS")
 		{
 			//支付成功
@@ -114,7 +115,7 @@ class MicroPay
 				return false;
 			}
 		}
-		
+
 		//如果返回错误码为“此交易订单号不存在”则直接认定失败
 		if($result["err_code"] == "ORDERNOTEXIST")
 		{
@@ -125,9 +126,9 @@ class MicroPay
 		}
 		return false;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * 撤销订单，如果失败会重复调用10次
 	 * @param string $out_trade_no
 	 * @param 调用深度 $depth
@@ -138,21 +139,21 @@ class MicroPay
 			if($depth > 10){
 				return false;
 			}
-			
+
 			$clostOrder = new WxPayReverse();
 			$clostOrder->SetOut_trade_no($out_trade_no);
 
 			$config = new WxPayConfig();
 			$result = WxPayApi::reverse($config, $clostOrder);
 
-			
+
 			//接口调用失败
 			if($result["return_code"] != "SUCCESS"){
 				return false;
 			}
-			
+
 			//如果结果为success且不需要重新调用撤销，则表示撤销成功
-			if($result["result_code"] != "SUCCESS" 
+			if($result["result_code"] != "SUCCESS"
 				&& $result["recall"] == "N"){
 				return true;
 			} else if($result["recall"] == "Y") {

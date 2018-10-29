@@ -1,4 +1,5 @@
 <?php
+namespace WxPay;
 /**
 *
 * example目录下为简单的支付样例，仅能用于搭建快速体验微信支付使用
@@ -6,7 +7,7 @@
 * 请勿直接直接使用样例对外提供服务
 *
 **/
-require_once "../lib/WxPay.Config.Interface.php";
+require_once "WxPayLib/WxPay.Config.Interface.php";
 
 /**
 *

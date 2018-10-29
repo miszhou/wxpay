@@ -1,4 +1,5 @@
 <?php
+namespace WxPayLib;
 /**
  *
  * 回调基础类

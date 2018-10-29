@@ -1,9 +1,10 @@
 <?php
+namespace WxPay;
 /**
  *
  */
-require_once "./WxPay.Config.php";
-require_once "../lib/WxPay.Data.php";
+require_once "WxPay.Config.php";
+require_once "WxPayLib/WxPay.Data.php";
 class WxApi
 {
     /**
