@@ -7,7 +7,7 @@ namespace WxPay;
 * 请勿直接直接使用样例对外提供服务
 *
 **/
-use WxPayLib\WxPayConfig;
+use WxPay\WxPayConfig;
 use WxPayLib\Log;
 use WxPayLib\WxPayApi;
 
@@ -24,12 +24,15 @@ class NativePay
      * 生成扫描支付URL,模式一
      * @param BizPayUrlInput $bizUrlInfo
      */
-    public function GetPrePayUrl($productId)
+    public function GetPrePayUrl($config, $productId)
     {
         $biz = new WxPayBizPayUrl();
         $biz->SetProduct_id($productId);
         try{
-            $config = new WxPayConfig();
+            // $config = new WxPayConfig();
+            if (!isset($config)) {
+                throw new Exception("WxPayConfig参数错误", 1);
+            }
             $values = WxpayApi::bizpayurl($config, $biz);
         } catch(Exception $e) {
             // Log::ERROR(json_encode($e));
@@ -60,12 +63,15 @@ class NativePay
      * 生成直接支付url，支付url有效期为2小时,模式二
      * @param UnifiedOrderInput $input
      */
-    public function GetPayUrl($input)
+    public function GetPayUrl($config, $input)
     {
         if($input->GetTrade_type() == "NATIVE")
         {
             try{
-                $config = new WxPayConfig();
+                // $config = new WxPayConfig();
+                if (!isset($config)) {
+                    throw new Exception("WxPayConfig参数错误", 1);
+                }
                 $result = WxPayApi::unifiedOrder($config, $input);
                 return $result;
             } catch(Exception $e) {

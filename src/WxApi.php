@@ -3,13 +3,15 @@ namespace WxPay;
 /**
  *
  */
-use WxPayLib\WxPayConfig;
+use WxPay\WxPayConfig;
+use WxPayLib\WxPayApi;
 use WxPayLib\WxPayUnifiedOrder;
 use WxPayLib\WxPayOrderQuery;
 use WxPayLib\WxPayCloseOrder;
 use WxPayLib\WxPayRefund;
 use WxPayLib\WxPayRefundQuery;
-
+use Log;
+use Exception;
 class WxApi
 {
     /**
@@ -24,8 +26,13 @@ class WxApi
     public function unifiedOrder(WxPayConfig $config, WxPayUnifiedOrder $inputObj)
     {
         $payresult = WxPayApi::unifiedOrder($config, $inputObj);
-        $jsapipay = new JsApiPay();
-        $result = $jsapipay->GetJsApiParameters($payresult);
+        if ($payresult['return_code'] == 'SUCCESS' && $payresult['result_code'] == 'SUCCESS') {
+            $jsapipay = new JsApiPay();
+            $result = $jsapipay->GetJsApiParameters($config, $payresult);
+        } else {
+            // Log::info('test', $payresult);
+            throw new Exception($payresult['return_msg'], 1);
+        }
         return $result;
     }
     /**
