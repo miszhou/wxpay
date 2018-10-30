@@ -13,7 +13,7 @@ class WxPayServiceProvider extends ServiceProvider
     public function boot()
     {
         $source = realpath(__DIR__.'/../config/WxPayConfig.php');
-        $this->publishes([$source => config_path('wxpayConfig.php')]);
+        $this->publishes([$source => base_path('config/wxpayConfig.php')]);
     }
 
     /**

@@ -22,7 +22,7 @@ class WxPayConfig extends WxPayConfigInterface
 
     public function __construct(Array $values)
     {
-        $this->values = $value;
+        $this->values = $values;
     }
     //=======【基本信息设置】=====================================
     /**
