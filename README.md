@@ -1,11 +1,12 @@
 # wxpay 公众号支付及小程序支付封装
-
+***
 1. 安装：composer require miszhou/wxpay
 2. 注册provider：在app.php里加入：$app->register(WxPay\WxPayServiceProvider::class);
 3. 静态资源文件生成： php artisan vendor:publish --provider="WxPay/WxPayServiceProvider"
    在config文件夹中将会生成wxpayConfig.php文件。
 4. 使用：
 	统一下单
+	``
 	$openid = 'ovIb50************nrU0s';  // 用户openid
     $config = new WxPayConfig(config('wxpayConfig'));
     $config->SetAppid('appid******');
@@ -26,3 +27,4 @@
     $order->SetTrade_type("JSAPI");
     $wxapi = new WxApi();
     $res = $wxapi->unifiedOrder($config, $order);
+    ``
