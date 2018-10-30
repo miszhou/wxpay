@@ -7,12 +7,13 @@ namespace WxPay;
 * 请勿直接直接使用样例对外提供服务
 *
 **/
-use WxPayLib\WxPayConfig;
+use WxPay\WxPayConfig;
 use WxPayLib\WxPayException;
 use WxPayLib\Log;
 use WxPayLib\WxPayOrderQuery;
 use WxPayLib\WxPayReverse;
 use WxPayLib\WxPayApi;
+use Exception;
 /**
  *
  * 刷卡支付实现类
@@ -37,10 +38,13 @@ class MicroPay
      * @throws WxpayException
      * @return 返回查询接口的结果
      */
-    public function pay($microPayInput)
+    public function pay($config, $microPayInput)
     {
         //①、提交被扫支付
-        $config = new WxPayConfig();
+        // $config = new WxPayConfig();
+        if (!isset($config)) {
+            throw new Exception("WxPayConfig参数错误", 1);
+        }
         $result = WxPayApi::micropay($config, $microPayInput, 5);
         //如果返回成功
         if(!array_key_exists("return_code", $result)
@@ -95,11 +99,14 @@ class MicroPay
      * @param int $succCode         查询订单结果
      * @return 0 订单不成功，1表示订单成功，2表示继续等待
      */
-    public function query($out_trade_no, &$succCode)
+    public function query($config, $out_trade_no, &$succCode)
     {
         $queryOrderInput = new WxPayOrderQuery();
         $queryOrderInput->SetOut_trade_no($out_trade_no);
-        $config = new WxPayConfig();
+        // $config = new WxPayConfig();
+        if (!isset($config)) {
+            throw new Exception("WxPayConfig参数错误", 1);
+        }
         try{
             $result = WxPayApi::orderQuery($config, $queryOrderInput);
         } catch(Exception $e) {
@@ -137,7 +144,7 @@ class MicroPay
      * @param string $out_trade_no
      * @param 调用深度 $depth
      */
-    public function cancel($out_trade_no, $depth = 0)
+    public function cancel($config, $out_trade_no, $depth = 0)
     {
         try {
             if($depth > 10){
@@ -147,7 +154,10 @@ class MicroPay
             $clostOrder = new WxPayReverse();
             $clostOrder->SetOut_trade_no($out_trade_no);
 
-            $config = new WxPayConfig();
+            // $config = new WxPayConfig();
+            if (!isset($config)) {
+                throw new Exception("WxPayConfig参数错误", 1);
+            }
             $result = WxPayApi::reverse($config, $clostOrder);
 
 

@@ -7,10 +7,11 @@ namespace WxPay;
 * 请勿直接直接使用样例对外提供服务
 *
 **/
-use WxPayLib\WxPayConfig;
+use WxPay\WxPayConfig;
 use WxPayLib\WxPayException;
 use WxPayLib\WxPayJsApiPay;
 use WxPayLib\WxPayApi;
+use Exception;
 /**
  *
  * JSAPI支付实现类
@@ -49,7 +50,7 @@ class JsApiPay
      *
      * @return 用户的openid
      */
-    public function GetOpenid()
+    public function GetOpenid($config)
     {
         //通过code获得openid
         if (!isset($_GET['code'])){
@@ -61,7 +62,7 @@ class JsApiPay
         } else {
             //获取code码，以获取openid
             $code = $_GET['code'];
-            $openid = $this->getOpenidFromMp($code);
+            $openid = $this->getOpenidFromMp($config, $code);
             return $openid;
         }
     }
@@ -74,7 +75,7 @@ class JsApiPay
      *
      * @return json数据，可直接填入js函数作为参数
      */
-    public function GetJsApiParameters($UnifiedOrderResult)
+    public function GetJsApiParameters($config, $UnifiedOrderResult)
     {
         if(!array_key_exists("appid", $UnifiedOrderResult)
         || !array_key_exists("prepay_id", $UnifiedOrderResult)
@@ -89,8 +90,9 @@ class JsApiPay
         $jsapi->SetTimeStamp("$timeStamp");
         $jsapi->SetNonceStr(WxPayApi::getNonceStr());
         $jsapi->SetPackage("prepay_id=" . $UnifiedOrderResult['prepay_id']);
-
-        $config = new WxPayConfig();
+        if (!isset($config)) {
+            throw new Exception("WxPayConfig参数错误", 1);
+        }
         $jsapi->SetPaySign($jsapi->MakeSign($config));
         $parameters = json_encode($jsapi->GetValues());
         return $parameters;
@@ -103,14 +105,16 @@ class JsApiPay
      *
      * @return openid
      */
-    public function GetOpenidFromMp($code)
+    public function GetOpenidFromMp($config, $code)
     {
         $url = $this->__CreateOauthUrlForOpenid($code);
 
         //初始化curl
         $ch = curl_init();
         $curlVersion = curl_version();
-        $config = new WxPayConfig();
+        if (!isset($config)) {
+            throw new Exception("WxPayConfig参数错误", 1);
+        }
         $ua = "WXPaySDK/3.0.9 (".PHP_OS.") PHP/".PHP_VERSION." CURL/".$curlVersion['version']." "
         .$config->GetMerchantId();
 
@@ -167,9 +171,12 @@ class JsApiPay
      *
      * @return 获取共享收货地址js函数需要的参数，json格式可以直接做参数使用
      */
-    public function GetEditAddressParameters()
+    public function GetEditAddressParameters($config)
     {
-        $config = new WxPayConfig();
+        // $config = new WxPayConfig();
+        if (!isset($config)) {
+            throw new Exception("WxPayConfig参数错误", 1);
+        }
         $getData = $this->data;
         $data = array();
         $data["appid"] = $config->GetAppId();
@@ -201,9 +208,12 @@ class JsApiPay
      *
      * @return 返回构造好的url
      */
-    private function _CreateOauthUrlForCode($redirectUrl)
+    private function _CreateOauthUrlForCode($config, $redirectUrl)
     {
-        $config = new WxPayConfig();
+        // $config = new WxPayConfig();
+        if (!isset($config)) {
+            throw new Exception("WxPayConfig参数错误", 1);
+        }
         $urlObj["appid"] = $config->GetAppId();
         $urlObj["redirect_uri"] = "$redirectUrl";
         $urlObj["response_type"] = "code";
@@ -220,9 +230,12 @@ class JsApiPay
      *
      * @return 请求的url
      */
-    private function __CreateOauthUrlForOpenid($code)
+    private function __CreateOauthUrlForOpenid($config, $code)
     {
-        $config = new WxPayConfig();
+        // $config = new WxPayConfig();
+        if (!isset($config)) {
+            throw new Exception("WxPayConfig参数错误", 1);
+        }
         $urlObj["appid"] = $config->GetAppId();
         $urlObj["secret"] = $config->GetAppSecret();
         $urlObj["code"] = $code;
