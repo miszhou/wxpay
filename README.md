@@ -1,14 +1,14 @@
 ﻿***
-# wxpay 公众号支付及小程序支付封装
-***
+# wxpay 公众号支付及小程序支付封装  
 1. 安装  
 	`composer require miszhou/wxpay`
 2. 注册provider  
-在app.php里加入： `$app->register(WxPay\WxPayServiceProvider::class);`
+在app.php里加入： `$app->register(WxPay\WxPayServiceProvider::class);`  
 3. 静态资源文件生成  
-	`php artisan vendor:publish --provider="WxPay/WxPayServiceProvider"`
+	`php artisan vendor:publish --provider="WxPay/WxPayServiceProvider"`  
    在config文件夹中将会生成wxpayConfig.php文件  
    在demo文件夹中将会生成demo.php文件以及成功回调实现类  
+   在app.php里加入：`$app->configure('wxpayConfig');`确保文件能被调用到  
 4. 使用：  
 	统一下单  
 	```
@@ -39,7 +39,7 @@
     ```
 具体使用见Demo：https://github.com/miszhou/wxpay/blob/master/demo/Demo.php  
 ## 可能错误提示
-1. curl出错，错误码:60
+1. curl出错，错误码:60  
   本地取消https证书校验，正式环境记得回退改动，正式环境应为严格模式。  
   miszhou/wxpay/lib/WxPay.Api.php 562行  
 	```
