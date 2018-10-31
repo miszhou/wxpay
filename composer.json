@@ -1,11 +1,13 @@
 {
     "name": "miszhou/wxpay",
+    "description": "wxpay for Laravel/Lumen framework.",
     "authors": [
         {
             "name": "zhouyutong",
             "email": "zhouyutong@bamasoso.com"
         }
     ],
+    "license": "MIT",
     "autoload": {
         "psr-4": {
             "WxPay\\": ["src/", "demo"]
