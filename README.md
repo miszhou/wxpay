@@ -37,7 +37,7 @@
 	$res = $wxapi->unifiedOrder($config, $order);
     ```
 具体使用见Demo：https://github.com/miszhou/wxpay/blob/master/demo/Demo.php  
-## 可能错误提示
+## 可能错误提示  
 1. curl出错，错误码:60  
 本地取消https证书校验，正式环境记得回退改动，正式环境应为严格模式。  
 miszhou/wxpay/lib/WxPay.Api.php 562行  
@@ -47,7 +47,7 @@ miszhou/wxpay/lib/WxPay.Api.php 562行
 	```
 变更为：  
 	```
-	curl_setopt($ch,CURLOPT_SSL_VERIFYPEER, FALSE);
+	curl_setopt($ch,CURLOPT_SSL_VERIFYPEER, FALSE);  
 	curl_setopt($ch,CURLOPT_SSL_VERIFYHOST, 0);//取消校验
 	```  
 2. time_expire时间过短，刷卡至少1分钟，其他5分钟  
