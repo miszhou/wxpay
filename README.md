@@ -48,7 +48,7 @@
 	```  
   变更为：  
 	```
-  		curl_setopt($ch,CURLOPT_SSL_VERIFYPEER, FALSE);
+		curl_setopt($ch,CURLOPT_SSL_VERIFYPEER, FALSE);
 		curl_setopt($ch,CURLOPT_SSL_VERIFYHOST, 0);//取消校验
 	```  
 2. time_expire时间过短，刷卡至少1分钟，其他5分钟  
