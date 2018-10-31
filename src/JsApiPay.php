@@ -56,7 +56,7 @@ class JsApiPay
         if (!isset($_GET['code'])){
             //触发微信返回code码
             $baseUrl = urlencode('http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'].$_SERVER['QUERY_STRING']);
-            $url = $this->_CreateOauthUrlForCode($baseUrl);
+            $url = $this->_CreateOauthUrlForCode($config, $baseUrl);
             Header("Location: $url");
             exit();
         } else {
@@ -107,7 +107,7 @@ class JsApiPay
      */
     public function GetOpenidFromMp($config, $code)
     {
-        $url = $this->__CreateOauthUrlForOpenid($code);
+        $url = $this->__CreateOauthUrlForOpenid($config, $code);
 
         //初始化curl
         $ch = curl_init();

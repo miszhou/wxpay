@@ -12,8 +12,16 @@ class WxPayServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // 默认资源文件配置
         $source = realpath(__DIR__.'/../config/WxPayConfig.php');
-        $this->publishes([$source => base_path('config/wxpayConfig.php')]);
+        // demo
+        $demo = realpath(__DIR__.'/../demo/Demo.php');
+        $democallback = realpath(__DIR__.'/../demo/PayNotifyCallBack.php');
+        $this->publishes([
+            $source => base_path('config/wxpayConfig.php'),
+            $demo => base_path('demo/Demo.php'),
+            $democallback => base_path('demo/PayNotifyCallBack.php')
+        ]);
     }
 
     /**
