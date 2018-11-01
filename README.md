@@ -1,13 +1,13 @@
 ﻿# wxpay 公众号支付及小程序支付封装  
 1. 安装  
-	`composer require miszhou/wxpay`
-2. 注册provider  
-在app.php里加入： `$app->register(WxPay\WxPayServiceProvider::class);`  
+`composer require miszhou/wxpay`
+2. 注册provider 在app.php里加入：  
+`$app->register(WxPay\WxPayServiceProvider::class);`  
 3. 静态资源文件生成  
-	`php artisan vendor:publish --provider="WxPay\WxPayServiceProvider"`  
-   在config文件夹中将会生成wxpayConfig.php文件  
-   在demo文件夹中将会生成demo.php文件以及成功回调实现类  
-   lumen需要在app.php里加入：`$app->configure('wxpayConfig');`确保文件能被调用到  
+`php artisan vendor:publish --provider="WxPay\WxPayServiceProvider"`  
+在config文件夹中将会生成wxpayConfig.php文件  
+在demo文件夹中将会生成demo.php文件以及成功回调实现类  
+lumen需要在app.php里加入：`$app->configure('wxpayConfig');`确保文件能被调用到  
 4. 使用：  
 	统一下单  
 	```
@@ -41,15 +41,15 @@
 1. curl出错，错误码:60  
 本地取消https证书校验，正式环境记得回退改动，正式环境应为严格模式。  
 miszhou/wxpay/lib/WxPay.Api.php 562行  
-	```
-	curl_setopt($ch,CURLOPT_SSL_VERIFYPEER, TRUE);
-	curl_setopt($ch,CURLOPT_SSL_VERIFYHOST, 2);//严格校验
-	```
+```
+curl_setopt($ch,CURLOPT_SSL_VERIFYPEER, TRUE);
+curl_setopt($ch,CURLOPT_SSL_VERIFYHOST, 2);//严格校验
+```
 变更为：  
-	```
-	curl_setopt($ch,CURLOPT_SSL_VERIFYPEER, FALSE);  
-	curl_setopt($ch,CURLOPT_SSL_VERIFYHOST, 0);//取消校验
-	```  
+```
+curl_setopt($ch,CURLOPT_SSL_VERIFYPEER, FALSE);  
+curl_setopt($ch,CURLOPT_SSL_VERIFYHOST, 0);//取消校验
+```
 2. time_expire时间过短，刷卡至少1分钟，其他5分钟  
 由于本地时区错误导致，不改变时区的情况下，可以将失效时间适当延长，一般延长8小时即可解决问题。  
 `$order->SetTime_expire('下单时间+600+8*3600');`
