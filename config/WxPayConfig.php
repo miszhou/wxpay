@@ -40,15 +40,17 @@
      */
     return
     [
-        'appid' => '',
-        'merchantid' => '',
-        'key' => '',
-        'appsecert' => '',
-        'notifyurl' => '',
-        'sslcertpath' => '',
-        'sslkeypath' => '',
-        'signtype' => 'HMAC-SHA256',    //默认值
-        'proxyhost' => '0.0.0.0',       //默认值
-        'proxyport' => '0',             //默认值
-        'reportlevenl' => '-1'          //默认值
+        'default' => [
+            'appid' => '',
+            'merchantid' => '',
+            'key' => '',
+            'appsecert' => '',
+            'notifyurl' => '',
+            'sslcertpath' => '',
+            'sslkeypath' => '',
+            'signtype' => 'HMAC-SHA256',    //默认值
+            'proxyhost' => '0.0.0.0',       //默认值
+            'proxyport' => '0',             //默认值
+            'reportlevenl' => '-1'          //默认值
+        ]
     ];
