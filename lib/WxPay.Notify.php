@@ -10,7 +10,6 @@ use WxPay\WxPayConfig;
 use WxPayLib\WxPayApi;
 use WxPayLib\WxPayOrderQuery;
 use WxPayLib\WxPayResults;
-use Log;
 
 require_once "WxPay.Data.php";
 
