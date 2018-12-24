@@ -6,6 +6,12 @@ namespace WxPayLib;
  * @author widyhu
  *
  */
+use WxPay\WxPayConfig;
+use WxPayLib\WxPayApi;
+use WxPayLib\WxPayOrderQuery;
+use WxPayLib\WxPayResults;
+use Log;
+
 require_once "WxPay.Data.php";
 
 class WxPayNotify extends WxPayNotifyReply
@@ -16,12 +22,31 @@ class WxPayNotify extends WxPayNotifyReply
      * 回调入口
      * @param bool $needSign  是否需要签名返回
      */
-    final public function Handle($config, $needSign = true)
+    final public function Handle($configarr, $needSign = true)
     {
-        $this->config = $config;
+        $xml = isset($GLOBALS['HTTP_RAW_POST_DATA']) ? $GLOBALS['HTTP_RAW_POST_DATA'] : file_get_contents("php://input");
+        if (!$xml) {
+            # 如果没有数据，直接返回失败
+            return false;
+        }
+        $obj = new WxPayResults();
+        $obj->FromXml($xml);
+        $key = '';
+        //fix bug 2015-06-29
+        if($obj->GetValues()['return_code'] != 'SUCCESS'){
+             return $obj->GetValues();
+        } else {
+            foreach ($configarr as $k => $value) {
+                if (array_search($obj->GetValues()['mch_id'], $value)) {
+                    $key = $k;
+                    break;
+                }
+            }
+        }
+        $this->config = new WxPayConfig($configarr, $key);
         $msg = "OK";
         //当返回false的时候，表示notify中调用NotifyCallBack回调失败获取签名校验失败，此时直接回复失败
-        $result = WxpayApi::notify($config, array($this, 'NotifyCallBack'), $msg);
+        $result = WxPayApi::notify($this->config, array($this, 'NotifyCallBack'), $msg);
         if($result == false){
             $this->SetReturn_code("FAIL");
             $this->SetReturn_msg($msg);
@@ -92,9 +117,6 @@ class WxPayNotify extends WxPayNotifyReply
     {
         $input = new WxPayOrderQuery();
         $input->SetTransaction_id($transaction_id);
-        // if (!isset($config)) {
-        //     $config = new WxPayConfig();
-        // }
         $result = WxPayApi::orderQuery($config, $input);
         if(array_key_exists("return_code", $result)
             && array_key_exists("result_code", $result)
@@ -162,6 +184,6 @@ class WxPayNotify extends WxPayNotifyReply
 
         $xml = $this->ToXml();
         $this->LogAfterProcess($xml);
-        WxpayApi::replyNotify($xml);
+        WxPayApi::replyNotify($xml);
     }
 }

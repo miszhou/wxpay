@@ -52,9 +52,8 @@ class Demo
      */
     public function paycallback()
     {
-        $config = $this->getConfig();
         $notify = new PayNotifyCallBack();
-        $notify->Handle($config, false);
+        $notify->Handle(config('wxpayConfig'), false);
     }
     /**
      * 订单查询
@@ -87,7 +86,7 @@ class Demo
         $config = $this->getConfig();
         $inputObj = new WxPayCloseOrder();
         $inputObj->SetOut_trade_no($out_trade_no); // 下单商户订单号唯一
-        $result = WxPayApi::orderQuery($config, $inputObj);
+        $result = WxPayApi::closeOrder($config, $inputObj);
         return $result;
     }
     /**
@@ -108,7 +107,7 @@ class Demo
         $inputObj->SetTotal_fee($total_fee);   // 下单支付总金额 单位：分
         $inputObj->SetRefund_fee($refund_fee); // 退款金额 单位：分
         $inputObj->SetOut_refund_no("sdkphp".date("YmdHis"));  // 商户自定义退款id 唯一
-
+        $inputObj->SetOp_user_id($config->GetMerchantId());
         $result = WxPayApi::refund($config, $inputObj);
         return $result;
     }
@@ -133,14 +132,14 @@ class Demo
         return $result;
     }
 
-    private function getConfig()
+    private function getConfig($key = 'default')
     {
-        $config = new WxPayConfig(config('wxpayConfig'));
-        $config->SetAppid('appid');                 // 设置appid 不设置默认为wxpayConfig数组文件里的appid
-        $config->SetAppSecret('appsecret');         // 设置appsecret 不设置默认为wxpayConfig数组文件里的appsecret
-        $config->SetKey('key');                     // 设置key 不设置默认为wxpayConfig数组文件里的key
-        $config->SetMerchantId('商户号');           // 设置商户号 不设置默认为wxpayConfig数组文件里的商户号
-        $config->SetNotifyUrl('支付成功回调地址');  // 设置回调地址 不设置默认为wxpayConfig数组文件里的回调地址
+        $config = new WxPayConfig(config('wxpayConfig'), $key);
+        // $config->SetAppid('appid');                 // 设置appid 不设置默认为wxpayConfig数组文件里的appid
+        // $config->SetAppSecret('appsecret');         // 设置appsecret 不设置默认为wxpayConfig数组文件里的appsecret
+        // $config->SetKey('key');                     // 设置key 不设置默认为wxpayConfig数组文件里的key
+        // $config->SetMerchantId('商户号');           // 设置商户号 不设置默认为wxpayConfig数组文件里的商户号
+        // $config->SetNotifyUrl('支付成功回调地址');  // 设置回调地址 不设置默认为wxpayConfig数组文件里的回调地址
         return $config;
     }
 }

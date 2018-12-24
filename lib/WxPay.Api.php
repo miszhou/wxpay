@@ -3,7 +3,7 @@ namespace WxPayLib;
 require_once "WxPay.Exception.php";
 require_once "WxPay.Config.Interface.php";
 require_once "WxPay.Data.php";
-
+use Log;
 /**
  *
  * 接口访问类，包含所有微信支付API列表的封装，类中方法为static方法，
@@ -421,7 +421,8 @@ class WxPayApi
  	 */
 	public static function notify($config, $callback, &$msg)
 	{
-		if (!isset($GLOBALS['HTTP_RAW_POST_DATA'])) {
+		$xml = isset($GLOBALS['HTTP_RAW_POST_DATA']) ? $GLOBALS['HTTP_RAW_POST_DATA'] : file_get_contents("php://input");
+		if (!$xml) {
 			# 如果没有数据，直接返回失败
 			return false;
 		}
@@ -429,7 +430,6 @@ class WxPayApi
 		//如果返回成功则验证签名
 		try {
 			//获取通知的数据
-			$xml = $GLOBALS['HTTP_RAW_POST_DATA'];
 			$result = WxPayNotifyResults::Init($config, $xml);
 		} catch (WxPayException $e){
 			$msg = $e->errorMessage();
