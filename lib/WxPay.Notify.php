@@ -11,7 +11,7 @@ use WxPayLib\WxPayApi;
 use WxPayLib\WxPayOrderQuery;
 use WxPayLib\WxPayResults;
 
-require_once "WxPay.Data.php";
+require_once __DIR__."/WxPay.Data.php";
 
 class WxPayNotify extends WxPayNotifyReply
 {
