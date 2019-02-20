@@ -4,6 +4,7 @@ namespace WxPay;
 use WxPay\WxApi;
 use WxPay\WxPayConfig;
 use WxPay\PayNotifyCallBack;
+use WxPayLib\WxPayApi;
 use WxPayLib\WxPayUnifiedOrder;
 use WxPayLib\WxPayOrderQuery;
 use WxPayLib\WxPayCloseOrder;
