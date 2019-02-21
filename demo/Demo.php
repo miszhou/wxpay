@@ -10,6 +10,9 @@ use WxPayLib\WxPayOrderQuery;
 use WxPayLib\WxPayCloseOrder;
 use WxPayLib\WxPayRefund;
 use WxPayLib\WxPayRefundQuery;
+use WxPayLib\QueryCouponStock;
+use WxPayLib\QueryCouponInfo;
+use WxPayLib\QueryCouponSend;
 
 class Demo
 {
@@ -132,7 +135,62 @@ class Demo
         $result = WxPayApi::refundQuery($config, $inputObj);
         return $result;
     }
-
+    /**
+     * 查询代金券批次
+     * 查询代金券批次接口中，coupon_stock_id必填！
+     *
+     * @DateTime 2019-02-21
+     * @param    WxPayConfig      $config [description]
+     * @param    QueryCouponStock $inputObj  [description]
+     * @return   [type]                   [description]
+     */
+    public function couponStock()
+    {
+        $config = $this->getConfig();
+        $inputObj = new QueryCouponStock();
+        $inputObj->SetCoupon_stock_id($coupon_stock_id); // 代金券批次id
+        $result = WxPayApi::couponStock($config, $inputObj);
+        return $result;
+    }
+    /**
+     * 查询代金券信息
+     * 查询代金券批次接口中，coupon_id、openid、stock_id必填！
+     *
+     * @DateTime 2019-02-21
+     * @param    WxPayConfig      $config [description]
+     * @param    QueryCouponInfo $inputObj  [description]
+     * @return   [type]                   [description]
+     */
+    public function couponInfo()
+    {
+        $config = $this->getConfig();
+        $inputObj = new QueryCouponInfo();
+        $inputObj->SetCoupon_id($coupon_id); // 代金券id
+        $inputObj->SetOpenid($openid);      // 用户openid
+        $inputObj->SetStock_id($stock_id);  // 批次号
+        $result = WxPayApi::couponInfo($config, $inputObj);
+        return $result;
+    }
+    /**
+     * 发放代金券
+     * 发放代金券接口中，coupon_stock_id、openid_count=1发送记录数只能填1、partner_trade_no、openid必填！
+     *
+     * @DateTime 2019-02-21
+     * @param    WxPayConfig      $config [description]
+     * @param    QueryCouponSend $inputObj  [description]
+     * @return   [type]                   [description]
+     */
+    public function couponSend()
+    {
+        $config = $this->getConfig();
+        $inputObj = new QueryCouponSend();
+        $inputObj->SetCoupon_stock_id($coupon_stock_id); // 代金券批次id
+        $inputObj->SetOpenid_count(1); // openid记录数 唯一值:1
+        $inputObj->SetPartner_trade_no($partner_trade_no); // 商户单据号 商户此次发放凭据号（格式：商户id+日期+流水号），商户侧需保持唯一性
+        $inputObj->SetOpenid($openid);  // 用户openid
+        $result = WxPayApi::couponSend($config, $inputObj);
+        return $result;
+    }
     private function getConfig($key = 'default')
     {
         $config = new WxPayConfig(config('wxpayConfig'), $key);
