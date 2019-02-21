@@ -6,10 +6,6 @@ namespace WxPay;
 use WxPay\WxPayConfig;
 use WxPayLib\WxPayApi;
 use WxPayLib\WxPayUnifiedOrder;
-use WxPayLib\WxPayOrderQuery;
-use WxPayLib\WxPayCloseOrder;
-use WxPayLib\WxPayRefund;
-use WxPayLib\WxPayRefundQuery;
 use Exception;
 class WxApi
 {

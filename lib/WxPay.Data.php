@@ -2966,7 +2966,7 @@ class WxPayJsApiPay extends WxPayDataBase
  */
 class WxPayBizPayUrl extends WxPayDataBaseSignMd5
 {
-        /**
+    /**
     * 设置微信分配的公众账号ID
     * @param string $value
     **/
@@ -3092,4 +3092,383 @@ class WxPayBizPayUrl extends WxPayDataBaseSignMd5
         return array_key_exists('product_id', $this->values);
     }
 }
+/**
+ *
+ * 查询代金券批次参数
+ * @author anning
+ *
+ */
+class QueryCouponStock extends WxPayDataBase
+{
+    //代金券批次id
+    public function SetCoupon_stock_id($value)
+    {
+        $this->values['coupon_stock_id'] = $value;
+    }
 
+    public function GetCoupon_stock_id()
+    {
+        return $this->values['coupon_stock_id'];
+    }
+
+    public function IsCoupon_stock_idSet()
+    {
+        return array_key_exists('coupon_stock_id', $this->values);
+    }
+
+    //公众账号ID
+    public function SetAppid($value)
+    {
+        $this->values['appid'] = $value;
+    }
+
+    public function GetAppid()
+    {
+        return $this->values['appid'];
+    }
+
+    public function IsAppidSet()
+    {
+        return array_key_exists('appid', $this->values);
+    }
+
+    //商户号
+    public function SetMch_id($value)
+    {
+        $this->values['mch_id'] = $value;
+    }
+
+    public function GetMch_id()
+    {
+        return $this->values['mch_id'];
+    }
+
+    public function IsMch_idSet()
+    {
+        return array_key_exists('mch_id', $this->values);
+    }
+
+    //操作员
+    public function SetOp_user_id($value)
+    {
+        $this->values['op_user_id'] = $value;
+    }
+
+    public function GetOp_user_id()
+    {
+        return $this->values['op_user_id'];
+    }
+
+    //设备号
+    public function SetDevice_info($value)
+    {
+        $this->values['device_info'] = $value;
+    }
+
+    public function GetDevice_info()
+    {
+        return $this->values['device_info'];
+    }
+
+    //随机字符串
+    public function SetNonce_str($value)
+    {
+        $this->values['nonce_str'] = $value;
+    }
+
+    public function GetNonce_str()
+    {
+        return $this->values['nonce_str'];
+    }
+
+    public function IsNonce_strSet()
+    {
+        return array_key_exists('nonce_str', $this->values);
+    }
+}
+
+/**
+ *
+ * 查询代金券信息参数
+ * @author anning
+ *
+ */
+class QueryCouponInfo extends WxPayDataBase
+{
+    //代金券id
+    public function SetCoupon_id($value)
+    {
+        $this->values['coupon_id'] = $value;
+    }
+
+    public function GetCoupon_id()
+    {
+        return $this->values['coupon_id'];
+    }
+
+    public function IsCoupon_idSet()
+    {
+        return array_key_exists('coupon_id', $this->values);
+    }
+
+    //用户openid
+    public function SetOpenid($value)
+    {
+        $this->values['openid'] = $value;
+    }
+
+    public function GetOpenid()
+    {
+        return $this->values['openid'];
+    }
+
+    public function IsOpenidSet()
+    {
+        return array_key_exists('openid', $this->values);
+    }
+
+    //公众账号ID
+    public function SetAppid($value)
+    {
+        $this->values['appid'] = $value;
+    }
+
+    public function GetAppid()
+    {
+        return $this->values['appid'];
+    }
+
+    public function IsAppidSet()
+    {
+        return array_key_exists('appid', $this->values);
+    }
+
+    //商户号
+    public function SetMch_id($value)
+    {
+        $this->values['mch_id'] = $value;
+    }
+
+    public function GetMch_id()
+    {
+        return $this->values['mch_id'];
+    }
+
+    public function IsMch_idSet()
+    {
+        return array_key_exists('mch_id', $this->values);
+    }
+
+    //批次号
+    public function SetStock_id($value)
+    {
+        $this->values['stock_id'] = $value;
+    }
+
+    public function GetStock_id()
+    {
+        return $this->values['stock_id'];
+    }
+
+    public function IsStock_idSet()
+    {
+        return array_key_exists('stock_id', $this->values);
+    }
+
+    //操作员
+    public function SetOp_user_id($value)
+    {
+        $this->values['op_user_id'] = $value;
+    }
+
+    public function GetOp_user_id()
+    {
+        return $this->values['op_user_id'];
+    }
+
+    //设备号
+    public function SetDevice_info($value)
+    {
+        $this->values['device_info'] = $value;
+    }
+
+    public function GetDevice_info()
+    {
+        return $this->values['device_info'];
+    }
+
+    //随机字符串
+    public function SetNonce_str($value)
+    {
+        $this->values['nonce_str'] = $value;
+    }
+
+    public function GetNonce_str()
+    {
+        return $this->values['nonce_str'];
+    }
+
+    public function IsNonce_strSet()
+    {
+        return array_key_exists('nonce_str', $this->values);
+    }
+}
+
+/**
+ *
+ * 发放代金券参数
+ * @author anning
+ *
+ */
+class QueryCouponSend extends WxPayDataBase
+{
+    //代金券批次id
+    public function SetCoupon_stock_id($value)
+    {
+        $this->values['coupon_stock_id'] = $value;
+    }
+
+    public function GetCoupon_stock_id()
+    {
+        return $this->values['coupon_stock_id'];
+    }
+
+    public function IsCoupon_stock_idSet()
+    {
+        return array_key_exists('coupon_stock_id', $this->values);
+    }
+
+    //openid记录数
+    public function SetOpenid_count($value)
+    {
+        $this->values['openid_count'] = $value;
+    }
+
+    public function GetOpenid_count()
+    {
+        return $this->values['openid_count'];
+    }
+
+    public function IsOpenid_countSet()
+    {
+        return array_key_exists('openid_count', $this->values);
+    }
+
+    //商户单据号
+    public function SetPartner_trade_no($value)
+    {
+        $this->values['partner_trade_no'] = $value;
+    }
+
+    public function GetPartner_trade_no()
+    {
+        return $this->values['partner_trade_no'];
+    }
+
+    public function IsPartner_trade_noSet()
+    {
+        return array_key_exists('partner_trade_no', $this->values);
+    }
+
+    //用户openid
+    public function SetOpenid($value)
+    {
+        $this->values['openid'] = $value;
+    }
+
+    public function GetOpenid()
+    {
+        return $this->values['openid'];
+    }
+
+    public function IsOpenidSet()
+    {
+        return array_key_exists('openid', $this->values);
+    }
+
+    //公众账号ID
+    public function SetAppid($value)
+    {
+        $this->values['appid'] = $value;
+    }
+
+    public function GetAppid()
+    {
+        return $this->values['appid'];
+    }
+
+    public function IsAppidSet()
+    {
+        return array_key_exists('appid', $this->values);
+    }
+
+    //商户号
+    public function SetMch_id($value)
+    {
+        $this->values['mch_id'] = $value;
+    }
+
+    public function GetMch_id()
+    {
+        return $this->values['mch_id'];
+    }
+
+    public function IsMch_idSet()
+    {
+        return array_key_exists('mch_id', $this->values);
+    }
+
+    //批次号
+    public function SetStock_id($value)
+    {
+        $this->values['stock_id'] = $value;
+    }
+
+    public function GetStock_id()
+    {
+        return $this->values['stock_id'];
+    }
+
+    public function IsStock_idSet()
+    {
+        return array_key_exists('stock_id', $this->values);
+    }
+
+    //操作员
+    public function SetOp_user_id($value)
+    {
+        $this->values['op_user_id'] = $value;
+    }
+
+    public function GetOp_user_id()
+    {
+        return $this->values['op_user_id'];
+    }
+
+    //设备号
+    public function SetDevice_info($value)
+    {
+        $this->values['device_info'] = $value;
+    }
+
+    public function GetDevice_info()
+    {
+        return $this->values['device_info'];
+    }
+
+    //随机字符串
+    public function SetNonce_str($value)
+    {
+        $this->values['nonce_str'] = $value;
+    }
+
+    public function GetNonce_str()
+    {
+        return $this->values['nonce_str'];
+    }
+
+    public function IsNonce_strSet()
+    {
+        return array_key_exists('nonce_str', $this->values);
+    }
+}

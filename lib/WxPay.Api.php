@@ -438,6 +438,81 @@ class WxPayApi
 		return call_user_func($callback, $result);
 	}
 
+	//2018.04.02由anning添加，查询代金券批次
+	public static function couponStock($config, $inputObj, $timeOut = 6){
+		$url = "https://api.mch.weixin.qq.com/mmpaymkttransfers/query_coupon_stock";
+
+		//检测必填参数
+		if(!$inputObj->IsCoupon_stock_idSet()) {
+			throw new WxPayException("查询代金券批次接口中，coupon_stock_id必填！");
+		}
+
+		$inputObj->SetAppid($config->GetAppId());//公众账号ID
+		$inputObj->SetMch_id($config->GetMerchantId());//商户号
+		$inputObj->SetNonce_str(self::getNonceStr());//随机字符串
+		$inputObj->SetSign($config);//签名
+		$xml = $inputObj->ToXml();
+
+		$response = self::postXmlCurl($config, $xml, $url, false, $timeOut);
+
+		return $response;
+	}
+
+	//2018.04.03由anning添加，查询代金券信息
+	public static function couponInfo($config, $inputObj, $timeOut = 6){
+		$url = "https://api.mch.weixin.qq.com/mmpaymkttransfers/querycouponsinfo";
+
+		//检测必填参数
+		if(!$inputObj->IsCoupon_idSet()) {
+			throw new WxPayException("查询代金券信息接口中，coupon_id必填！");
+		}
+		if(!$inputObj->IsOpenidSet()) {
+			throw new WxPayException("查询代金券信息接口中，openid必填！");
+		}
+		if(!$inputObj->IsStock_idSet()) {
+			throw new WxPayException("查询代金券信息接口中，stock_id必填！");
+		}
+
+		$inputObj->SetAppid($config->GetAppId());//公众账号ID
+		$inputObj->SetMch_id($config->GetMerchantId());//商户号
+		$inputObj->SetNonce_str(self::getNonceStr());//随机字符串
+		$inputObj->SetSign($config);//签名
+		$xml = $inputObj->ToXml();
+
+		$response = self::postXmlCurl($config, $xml, $url, false, $timeOut);
+
+		return $response;
+	}
+
+	//2018.04.03由anning添加，发放代金券
+	public static function couponSend($config, $inputObj, $timeOut = 6){
+		$url = "https://api.mch.weixin.qq.com/mmpaymkttransfers/send_coupon";
+
+		//检测必填参数
+		if(!$inputObj->IsCoupon_stock_idSet()) {
+			throw new WxPayException("发放代金券接口中，coupon_stock_id必填！");
+		}
+		if(!$inputObj->IsOpenid_countSet()) {
+			throw new WxPayException("发放代金券接口中，openid_count必填！");
+		}
+		if(!$inputObj->IsPartner_trade_noSet()) {
+			throw new WxPayException("发放代金券接口中，partner_trade_no必填！");
+		}
+		if(!$inputObj->IsOpenidSet()) {
+			throw new WxPayException("发放代金券接口中，openid必填！");
+		}
+
+		$inputObj->SetAppid($config->GetAppId());//公众账号ID
+		$inputObj->SetMch_id($config->GetMerchantId());//商户号
+		$inputObj->SetNonce_str(self::getNonceStr());//随机字符串
+		$inputObj->SetSign($config);//签名
+
+		$xml = $inputObj->ToXml();
+		$response = self::postXmlCurl($config, $xml, $url, true, $timeOut);
+
+		return $response;
+	}
+
 	/**
 	 *
 	 * 产生随机字符串，不长于32位
