@@ -1,8 +1,5 @@
 <?php
 namespace WxPayLib;
-require_once __DIR__."/WxPay.Exception.php";
-require_once __DIR__."/WxPay.Config.Interface.php";
-require_once __DIR__."/WxPay.Data.php";
 /**
  *
  * 接口访问类，包含所有微信支付API列表的封装，类中方法为static方法，
@@ -450,7 +447,7 @@ class WxPayApi
 		$inputObj->SetAppid($config->GetAppId());//公众账号ID
 		$inputObj->SetMch_id($config->GetMerchantId());//商户号
 		$inputObj->SetNonce_str(self::getNonceStr());//随机字符串
-		$inputObj->SetSign($config);//签名
+		$inputObj->SetSign($config, false);//签名
 		$xml = $inputObj->ToXml();
 
 		$response = self::postXmlCurl($config, $xml, $url, false, $timeOut);
@@ -476,7 +473,7 @@ class WxPayApi
 		$inputObj->SetAppid($config->GetAppId());//公众账号ID
 		$inputObj->SetMch_id($config->GetMerchantId());//商户号
 		$inputObj->SetNonce_str(self::getNonceStr());//随机字符串
-		$inputObj->SetSign($config);//签名
+		$inputObj->SetSign($config, false);//签名
 		$xml = $inputObj->ToXml();
 
 		$response = self::postXmlCurl($config, $xml, $url, false, $timeOut);
@@ -505,7 +502,7 @@ class WxPayApi
 		$inputObj->SetAppid($config->GetAppId());//公众账号ID
 		$inputObj->SetMch_id($config->GetMerchantId());//商户号
 		$inputObj->SetNonce_str(self::getNonceStr());//随机字符串
-		$inputObj->SetSign($config);//签名
+		$inputObj->SetSign($config, false);//签名
 
 		$xml = $inputObj->ToXml();
 		$response = self::postXmlCurl($config, $xml, $url, true, $timeOut);
