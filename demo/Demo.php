@@ -147,6 +147,7 @@ class Demo
     public function couponStock()
     {
         $config = $this->getConfig();
+        $config->SetSignType('MD5');  // 固定加密方式 MD5
         $inputObj = new QueryCouponStock();
         $inputObj->SetCoupon_stock_id($coupon_stock_id); // 代金券批次id
         $result = WxPayApi::couponStock($config, $inputObj);
@@ -164,6 +165,7 @@ class Demo
     public function couponInfo()
     {
         $config = $this->getConfig();
+        $config->SetSignType('MD5');  // 固定加密方式 MD5
         $inputObj = new QueryCouponInfo();
         $inputObj->SetCoupon_id($coupon_id); // 代金券id
         $inputObj->SetOpenid($openid);      // 用户openid
@@ -183,6 +185,7 @@ class Demo
     public function couponSend()
     {
         $config = $this->getConfig();
+        $config->SetSignType('MD5');  // 固定加密方式 MD5
         $inputObj = new QueryCouponSend();
         $inputObj->SetCoupon_stock_id($coupon_stock_id); // 代金券批次id
         $inputObj->SetOpenid_count(1); // openid记录数 唯一值:1
