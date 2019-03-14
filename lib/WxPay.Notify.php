@@ -41,6 +41,10 @@ class WxPayNotify extends WxPayNotifyReply
             }
         }
         $this->config = new WxPayConfig($configarr, $key);
+        // 匹配支付时的自定义appid
+        if (array_key_exists('appid', $obj->GetValues())) {
+            $this->config->SetAppid($obj->GetValues()['appid']);
+        }
         $msg = "OK";
         //当返回false的时候，表示notify中调用NotifyCallBack回调失败获取签名校验失败，此时直接回复失败
         $result = WxPayApi::notify($this->config, array($this, 'NotifyCallBack'), $msg);
